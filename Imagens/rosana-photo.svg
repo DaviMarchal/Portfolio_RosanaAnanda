@@ -1,0 +1,45 @@
+<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f4f1e8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8dcc0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="hair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="400" fill="url(#bg)"/>
+  
+  <!-- Professional silhouette -->
+  <g transform="translate(150,200)">
+    <!-- Head -->
+    <circle cx="0" cy="-50" r="45" fill="#F5DEB3" stroke="#D2B48C" stroke-width="2"/>
+    
+    <!-- Hair -->
+    <path d="M -40 -85 Q -50 -95 -45 -105 Q -30 -110 0 -105 Q 30 -110 45 -105 Q 50 -95 40 -85 Q 35 -75 25 -70 Q 15 -65 0 -65 Q -15 -65 -25 -70 Q -35 -75 -40 -85 Z" fill="url(#hair)"/>
+    
+    <!-- Face features -->
+    <circle cx="-12" cy="-60" r="2" fill="#8B4513"/> <!-- Left eye -->
+    <circle cx="12" cy="-60" r="2" fill="#8B4513"/> <!-- Right eye -->
+    <path d="M -5 -45 Q 0 -40 5 -45" stroke="#8B4513" stroke-width="1" fill="none"/> <!-- Nose -->
+    <path d="M -8 -35 Q 0 -30 8 -35" stroke="#CD853F" stroke-width="2" fill="none"/> <!-- Smile -->
+    
+    <!-- Professional attire -->
+    <rect x="-60" y="-5" width="120" height="150" fill="#2C3E50" rx="10"/> <!-- Blazer -->
+    <rect x="-45" y="-5" width="90" height="130" fill="#FFFFFF" rx="5"/> <!-- Shirt -->
+    
+    <!-- Professional details -->
+    <rect x="-50" y="10" width="20" height="30" fill="#2C3E50" rx="2"/> <!-- Left lapel -->
+    <rect x="30" y="10" width="20" height="30" fill="#2C3E50" rx="2"/> <!-- Right lapel -->
+    
+    <!-- Subtle psychology symbol -->
+    <circle cx="0" cy="80" r="15" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.7"/>
+    <text x="0" y="85" text-anchor="middle" font-family="serif" font-size="12" fill="#D4AF37" opacity="0.7">ψ</text>
+  </g>
+  
+  <!-- Professional border -->
+  <rect x="10" y="10" width="280" height="380" fill="none" stroke="#D4AF37" stroke-width="3" rx="15"/>
+</svg>
