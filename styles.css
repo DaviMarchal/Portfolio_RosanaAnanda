@@ -272,18 +272,16 @@ body {
 /* Hero Section */
 .hero {
     min-height: 100vh;
-    align-items: center;
     background: linear-gradient(135deg, var(--ivory-whisper) 0%, var(--champagne-veil) 100%);
     padding-top: 80px;
 }
 
-.hero.tab-content {
-    display: none !important;
+.hero.active {
+    display: flex !important;
+    align-items: center;
 }
 
-.hero.tab-content.active {
-    display: flex !important;
-}
+
 
 .hero-container {
     max-width: 1200px;

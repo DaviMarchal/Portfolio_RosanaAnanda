@@ -18,39 +18,49 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ===== TAB NAVIGATION SYSTEM =====
+    // Global showTab function
+    window.showTab = function(targetId) {
+        const tabContents = document.querySelectorAll('.tab-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        console.log('showTab called with:', targetId);
+        
+        // Hide all tabs
+        tabContents.forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show target tab immediately
+        const targetTab = document.querySelector(targetId);
+        if (targetTab) {
+            targetTab.classList.add('active');
+            console.log('Tab activated:', targetId);
+        } else {
+            console.error('Target tab not found:', targetId);
+        }
+        
+        // Update active nav link
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`a[href="${targetId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log('Nav link updated:', targetId);
+        }
+    };
+    
     function initTabNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
         const tabContents = document.querySelectorAll('.tab-content');
-        
-        function showTab(targetId) {
-            // Hide all tabs
-            tabContents.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show target tab immediately
-            const targetTab = document.querySelector(targetId);
-            if (targetTab) {
-                targetTab.classList.add('active');
-            }
-            
-            // Update active nav link
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const activeLink = document.querySelector(`a[href="${targetId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
         
         // Handle navigation clicks
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('href');
-                showTab(targetId);
+                window.showTab(targetId);
                 
                 // Close mobile menu if open
                 hamburger.classList.remove('active');
@@ -60,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Show initial tab (inicio)
-        showTab('#inicio');
+        window.showTab('#inicio');
     }
     
     // Menu Mobile Toggle
@@ -77,6 +87,38 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize tab navigation
     initTabNavigation();
+    
+    // Add event listeners for action buttons (non nav-links)
+    function initActionButtons() {
+        const actionButtons = document.querySelectorAll('a[href^="#"]:not(.nav-link)');
+        console.log('Action buttons found:', actionButtons.length);
+        
+        actionButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const targetId = button.getAttribute('href');
+                console.log('Action button clicked, target:', targetId);
+                
+                // Use the global showTab function
+                window.showTab(targetId);
+                
+                // Close mobile menu if open
+                if (hamburger) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+                
+                // Prevent URL change
+                window.history.replaceState(null, null, window.location.pathname);
+            });
+        });
+    }
+    
+    // Initialize action buttons
+    initActionButtons();
     
     // Fechar menu ao clicar fora dele
     document.addEventListener('click', (e) => {
