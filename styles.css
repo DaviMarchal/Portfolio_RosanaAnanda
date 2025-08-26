@@ -525,6 +525,17 @@ body {
     font-weight: 500;
 }
 
+.quote-author {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    font-style: italic;
+    margin-top: 10px;
+    text-align: right;
+    line-height: 1.4;
+}
+
+
+
 .profile-image {
     display: flex;
     justify-content: center;
@@ -888,6 +899,11 @@ body {
     position: relative;
     z-index: 1;
     display: block;
+}
+
+/* Ajuste específico para a imagem de Avaliação Neuropsicológica */
+.portfolio-card-image[alt="Avaliação Neuropsicológica"] {
+    object-position: center top;
 }
 
 .portfolio-card:hover .portfolio-card-image {
