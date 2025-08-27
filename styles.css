@@ -361,12 +361,12 @@ body {
     border-radius: 20px;
     padding: var(--spacing-xl);
     box-shadow: var(--shadow-xl);
-    transform: rotate(3deg);
+    transform: rotate(0deg);
     transition: transform var(--transition-slow);
 }
 
 .hero-card:hover {
-    transform: rotate(0deg) scale(1.05);
+    transform: scale(1.05);
 }
 
 .hero-photo {
@@ -2007,6 +2007,57 @@ textarea:focus,
     background: linear-gradient(135deg, #f4e4a6, #d4af37);
 }
 
+/* Mobile Performance Optimizations */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input, textarea, select {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Prevent zoom on input focus for iOS */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    font-size: 16px;
+}
+
+/* Smooth scrolling for mobile */
+html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* Optimize animations for mobile */
+@media (max-width: 768px) {
+    * {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.3s !important;
+    }
+    
+    .hero-card:hover {
+        transform: scale(1.02) !important;
+    }
+    
+    .portfolio-card:hover {
+        transform: translateY(-2px) !important;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-2px) !important;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .neuropsychology-top-row,
@@ -2026,7 +2077,57 @@ textarea:focus,
     }
 }
 
+/* Mobile-specific styles */
+.mobile-device .hero-card:hover,
+.mobile-device .portfolio-card:hover,
+.mobile-device .course-card:hover,
+.mobile-device .info-box:hover {
+    transform: none !important;
+}
+
+.mobile-device * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+/* Fix mobile viewport height */
+@supports (-webkit-touch-callout: none) {
+    .hero {
+        min-height: calc(var(--vh, 1vh) * 100);
+    }
+}
+
+/* Mobile touch improvements */
 @media (max-width: 768px) {
+    /* Larger touch targets */
+    .nav-link,
+    .btn,
+    .hamburger,
+    .portfolio-card,
+    .course-card {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Improve text readability */
+    body {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+    
+    /* Optimize scrolling */
+    .container {
+        overflow-x: hidden;
+    }
+    
+    /* Reduce motion for better performance */
+    .fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    /* Neuropsychology section mobile */
     .neuropsychology-section {
         padding: calc(var(--spacing-xl) + 100px) 0 var(--spacing-xl) 0;
     }
@@ -2085,5 +2186,44 @@ textarea:focus,
     
     .indication-category h5 {
         font-size: 0.9rem;
+    }
+    
+    /* Mobile form improvements */
+    .contact-form {
+        padding: var(--spacing-lg);
+    }
+    
+    .form-group {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .form-control {
+        padding: 12px 16px;
+        border-radius: 8px;
+    }
+    
+    /* Mobile navigation improvements */
+    .nav-menu {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    /* Mobile modal improvements */
+    .modal-content {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+        max-height: calc(100% - 20px);
+    }
+    
+    .modal-image {
+        max-height: 60vh;
+    }
+    
+    /* Mobile notification improvements */
+    .notification {
+        right: 10px !important;
+        left: 10px !important;
+        max-width: calc(100% - 20px) !important;
+        top: 80px !important;
     }
 }

@@ -1,6 +1,88 @@
+// Mobile Detection and Optimizations
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+}
+
+function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+}
+
+function isAndroid() {
+    return /Android/.test(navigator.userAgent);
+}
+
+// Mobile Performance Optimizations
+function optimizeForMobile() {
+    if (isMobileDevice()) {
+        // Disable hover effects on mobile
+        document.body.classList.add('mobile-device');
+        
+        // Reduce animation complexity
+        document.documentElement.style.setProperty('--transition-normal', '0.2s');
+        document.documentElement.style.setProperty('--transition-slow', '0.3s');
+        
+        // Optimize scroll performance
+        document.body.style.webkitOverflowScrolling = 'touch';
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Optimize images for mobile
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.loading = 'lazy';
+            img.style.willChange = 'auto';
+        });
+    }
+}
+
+// Fix iOS viewport issues
+function fixIOSViewport() {
+    if (isIOS()) {
+        // Fix 100vh issue on iOS
+        const setVH = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setVH, 100);
+        });
+    }
+}
+
+// Prevent memory leaks on mobile
+function preventMemoryLeaks() {
+    // Clean up event listeners on page unload
+    window.addEventListener('beforeunload', () => {
+        // Remove all event listeners
+        const elements = document.querySelectorAll('*');
+        elements.forEach(el => {
+            el.onscroll = null;
+            el.ontouchmove = null;
+            el.ontouchstart = null;
+            el.ontouchend = null;
+        });
+    });
+}
+
 // Aguarda o carregamento completo do DOM
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM carregado - iniciando script');
+    
+    // Initialize mobile optimizations
+    optimizeForMobile();
+    fixIOSViewport();
+    preventMemoryLeaks();
     
     // Elementos do DOM
     const hamburger = document.querySelector('.hamburger');
@@ -403,9 +485,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Inicializar parallax apenas em telas maiores
-    if (window.innerWidth > 768) {
+    // Inicializar parallax apenas em telas maiores e não mobile
+    if (window.innerWidth > 768 && !isMobileDevice()) {
         initParallax();
+    }
+    
+    // Mobile-specific optimizations
+    if (isMobileDevice()) {
+        // Disable parallax and complex animations on mobile
+        console.log('Mobile device detected - optimizing performance');
+        
+        // Optimize touch events
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        document.addEventListener('touchmove', function() {}, { passive: true });
+        
+        // Reduce scroll event frequency on mobile
+        let ticking = false;
+        function updateOnScroll() {
+            if (!ticking) {
+                requestAnimationFrame(function() {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        window.removeEventListener('scroll', debouncedScroll);
+        window.addEventListener('scroll', updateOnScroll, { passive: true });
+        
+        // Optimize image loading for mobile
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            if ('loading' in HTMLImageElement.prototype) {
+                img.loading = 'lazy';
+            }
+        });
+        
+        // Reduce animation complexity
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .mobile-device * {
+                    will-change: auto !important;
+                }
+                .mobile-device .hero-card,
+                .mobile-device .portfolio-card,
+                .mobile-device .course-card {
+                    transition: none !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     }
     
     // Garantir que todas as imagens sejam visíveis imediatamente
